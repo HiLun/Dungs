@@ -11,19 +11,22 @@ namespace GoblinsDungeons
         static void Main(string[] args)
         {
             Console.WriteLine("¿Cual es tu nombre viajero?: ");
-            string v=Console.ReadLine();
+            string v = Console.ReadLine();
             Jugador Le = new Jugador();
-//datos
+            //datos
             Le.Nombre = v;
-            Le.Velocidad=10;
+            Le.Velocidad = 10;
             Le.Vida = 10;
             Le.Defensa = 10;
             Le.Stat();
 
-            
+            Jugador Loco = new Jugador();
+
+            Loco.Stat();
+
 
             Console.ReadKey();
-        }  
+        }
     }
     class Personaje
     {
@@ -58,11 +61,11 @@ namespace GoblinsDungeons
         public Personaje()
         {
             Random rand = new Random();
-            int op1=rand.Next(0, 5);
+            int op1 = rand.Next(0, 5);
             //Console.WriteLine(habilidadH);
             int op2 = rand.Next(0, 5);
             //Console.WriteLine(habilidadH);
-            if(op1==op2)
+            if (op1 == op2)
             {
                 habilidadH = "Golden Boy";
             }
@@ -92,7 +95,7 @@ namespace GoblinsDungeons
             }
             //string H = hablilidadH;
 
-            Console.WriteLine("Tu habilidad especial es: {0}",habilidadH);
+            Console.WriteLine("Tu habilidad especial es: {0}", habilidadH);
             //return H;
         }
     }
@@ -100,7 +103,7 @@ namespace GoblinsDungeons
     {
         public void Stat()
         {
-            Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2}",Vida,Defensa,Velocidad);
+            Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2}", Vida, Defensa, Velocidad);
         }
 
     }
