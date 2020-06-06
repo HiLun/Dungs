@@ -13,7 +13,7 @@ namespace GoblinsDungeons
             Console.WriteLine("¿Cual es tu nombre viajero?: ");
             string v=Console.ReadLine();
             Jugador Le = new Jugador();
-
+//datos
             Le.Nombre = v;
             Le.Velocidad=10;
             Le.Vida = 10;
