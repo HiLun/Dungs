@@ -12,15 +12,9 @@ namespace GoblinsDungeons
         {
             Console.WriteLine("¿Cual es tu nombre viajero?: ");
             string v = Console.ReadLine();
-            Jugador Le = new Jugador();
-
+            Jugador Le = new Jugador(v);
             //datos
-            Le.Habilidad = Asignacion();
-            Le.Nombre = v;           
-            Le.Velocidad = 10;
-            Le.Vida = 10;
-            Le.Defensa = 10;
-            Le.Daño = 10;
+            Le.Habilidad = Asignacion();                     
             Boost(Le.Habilidad, Le);
             Le.Stat();
 
@@ -37,7 +31,7 @@ namespace GoblinsDungeons
             //Console.WriteLine(habilidadH);
             int op2 = rand.Next(0, 5);
             //Console.WriteLine(habilidadH);
-            if (true)
+            if (op1==op2)
             {
                 habilidad = "Golden Boy";
             }
@@ -46,19 +40,19 @@ namespace GoblinsDungeons
                 switch (op1)
                 {
                     case 0:
-                        habilidad = "impenetrable";
+                        habilidad = "impenetrable";//
                         break;
                     case 1:
-                        habilidad = "El Esquivo";
+                        habilidad = "El Esquivo";//
                         break;
                     case 2:
-                        habilidad = "Puños";
+                        habilidad = "Puños";//
                         break;
                     case 3:
-                        habilidad = "El vasto";
+                        habilidad = "El vasto";//
                         break;
                     case 4:
-                        habilidad = "Toque sanador";
+                        habilidad = "Toque sanador";//
                         break;
                     case 5:
                         habilidad = "El más debil";
@@ -75,24 +69,26 @@ namespace GoblinsDungeons
                 case "Toque sanador":
                     Console.WriteLine("Aun no hay poder sorry bro");
                     break;
-                case "":
-                    Console.WriteLine("Aun no hay poder sorry bro");
+                case "El vasto":
+                    mob.Vida*=5;
                     break;
-               /* case "":
-                    Console.WriteLine("Aun no hay poder sorry bro");
+                case "El Esquivo":
+                    mob.Velocidad*=5;
                     break;
-                case "":
-                    Console.WriteLine("Aun no hay poder sorry bro");
+                case "Puños":
+                    mob.Daño*=5;
                     break;
-                case "":
-                    Console.WriteLine("Aun no hay poder sorry bro");
-                    break;*/
+                case "impenetrable":
+                    mob.Defensa *= 5;
+                    break;
                 case "Golden Boy":
                     mob.Vida*=5;
                     mob.Defensa *= 5;
                     mob.Velocidad *= 5;
                     mob.Daño *= 5;
-                    
+                    break;
+                case "El más debil":
+                    mob.Vida -= 9;
                     break;
 
             }
@@ -101,11 +97,11 @@ namespace GoblinsDungeons
 
 class Personaje
 {
-    private int lvl;
-    private int vida;
-    private int defensa;
-    private int velocidad;
-    private int daño=0;
+    //private int lvl=1;//Implementar a futuro
+    private int vida=1;
+    private int defensa=1;
+    private int velocidad=1;
+    private int daño=1;
     private string nombre;
     private string habilidadH;
 
@@ -142,6 +138,15 @@ class Personaje
     }
     class Jugador : Personaje
     {
+        public Jugador(string v)
+        {
+            Nombre = v;
+            //Jugador lvl 1 sin habilidad
+            Vida = 10;
+            Daño = 10;
+            Defensa = 10;
+            Velocidad = 10;
+        }
         public void Stat()
         {
             Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2} \nDaño = {4} \nHabilidad = {3}", Vida, Defensa, Velocidad, Habilidad,Daño);
@@ -150,3 +155,4 @@ class Personaje
     }
 
 }
+
