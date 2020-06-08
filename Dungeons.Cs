@@ -10,16 +10,21 @@ namespace GoblinsDungeons
     {
         static void Main(string[] args)
         {
+
+            //set de lvl estandar temporal para mobs
+            int lvl = 1;
+            //Jugador
             Console.WriteLine("¿Cual es tu nombre viajero?: ");
             string v = Console.ReadLine();
             Jugador Le = new Jugador(v);
-            //datos
             Le.Habilidad = Asignacion();                     
             Boost(Le.Habilidad, Le);
             Le.Stat();
 
-
-
+            //Enemigo
+            Mob gob = new Mob(lvl);
+            gob.Habilidad = "Debilidad "+lvl;
+            gob.Stat();
 
             Console.ReadKey();
         }
@@ -135,6 +140,10 @@ class Personaje
             get { return daño; }
             set { daño = value; }
         }
+    public void Stat()
+        {
+            Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2} \nDaño = {4} \nHabilidad = {3}", Vida, Defensa, Velocidad, Habilidad, Daño);
+        }
     }
     class Jugador : Personaje
     {
@@ -147,12 +156,22 @@ class Personaje
             Defensa = 10;
             Velocidad = 10;
         }
-        public void Stat()
-        {
-            Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2} \nDaño = {4} \nHabilidad = {3}", Vida, Defensa, Velocidad, Habilidad,Daño);
-        }
 
     }
-
+    class Mob : Personaje
+    {       
+        public Mob(int lvl)
+            {
+            Nombre ="Goblin";
+            //Goblin lvl 1 sin habilidad
+            Vida = 1*(lvl);
+            Daño = 6*(lvl);
+            Defensa = 0*(lvl);
+            Velocidad = 6*(lvl);
+            }
+        
+    }
 }
+
+
 
