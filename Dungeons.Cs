@@ -12,7 +12,7 @@ namespace GoblinsDungeons
         {
 
             //set de lvl estandar temporal para mobs
-            int lvl = 1;
+            int lvl = 10;
             //Jugador
             Console.WriteLine("¿Cual es tu nombre viajero?: ");
             string v = Console.ReadLine();
@@ -22,9 +22,24 @@ namespace GoblinsDungeons
             Le.Stat();
 
             //Enemigo
+            
             Mob gob = new Mob(lvl);
-            gob.Habilidad = "Debilidad "+lvl;
-            gob.Stat();
+            while(gob.Vida != 0)
+            {
+                gob.Habilidad = "Debilidad " + lvl;
+                gob.Stat();
+
+                //Combate simulado
+                Le.Atacar(gob);
+                if (gob.Vida <= 0)
+                {
+                    gob.Vida = 0;
+                    gob.Stat();
+                    Console.WriteLine("El enemigo fue abatido");
+                }
+            }
+
+
 
             Console.ReadKey();
         }
@@ -142,8 +157,9 @@ class Personaje
         }
     public void Stat()
         {
-            Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2} \nDaño = {4} \nHabilidad = {3}", Vida, Defensa, Velocidad, Habilidad, Daño);
+            Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2} \nDaño = {4} \nHabilidad = {3}\n", Vida, Defensa, Velocidad, Habilidad, Daño);
         }
+    
     }
     class Jugador : Personaje
     {
@@ -156,7 +172,15 @@ class Personaje
             Defensa = 10;
             Velocidad = 10;
         }
-
+        public void Atacar(Personaje mob)
+        {
+            int lostlife = Daño - (mob.Defensa / 3);
+            if (lostlife > 0)
+            {
+                mob.Vida -= lostlife;
+            }
+            else { Console.WriteLine("Tu ataque no le hizo ningun daño \nTal vez deberias correr"); }
+        }
     }
     class Mob : Personaje
     {       
@@ -169,9 +193,18 @@ class Personaje
             Defensa = 0*(lvl);
             Velocidad = 6*(lvl);
             }
-        
+        public void Atacar(Personaje mob)
+        {
+            int lostlife = Daño - (mob.Defensa / 3);
+            if (lostlife > 0)
+            {
+                mob.Vida -= lostlife;
+            }
+            else { Console.WriteLine("Tu ataque no le hizo ningun daño \nTal vez deberias correr"); }
+        }
+        ~Mob()
+        {      
+        }
     }
 }
-
-
 
