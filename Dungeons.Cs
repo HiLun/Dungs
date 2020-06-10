@@ -12,7 +12,10 @@ namespace GoblinsDungeons
         {
 
             //set de lvl estandar temporal para mobs
-            int lvl = 10;
+            int lvl = 1;
+
+            int decis = 0;
+            int situacion = 0;
             //Jugador
             Console.WriteLine("¿Cual es tu nombre viajero?: ");
             string v = Console.ReadLine();
@@ -22,21 +25,15 @@ namespace GoblinsDungeons
             Le.Stat();
 
             //Enemigo
-            
+            Console.WriteLine("Encontraste a un enemigo");
             Mob gob = new Mob(lvl);
-            while(gob.Vida != 0)
+            while(gob.Existencia == 1 && Le.Existencia == 1)
             {
+                situacion = 1;
                 gob.Habilidad = "Debilidad " + lvl;
                 gob.Stat();
-
-                //Combate simulado
-                Le.Atacar(gob);
-                if (gob.Vida <= 0)
-                {
-                    gob.Vida = 0;
-                    gob.Stat();
-                    Console.WriteLine("El enemigo fue abatido");
-                }
+                //Jugador decide
+                Decision(decis, gob, Le,situacion);
             }
 
 
@@ -113,6 +110,59 @@ namespace GoblinsDungeons
 
             }
         }
+        public static void Atacar(Personaje mob, Personaje ob)
+        {
+            int lostlife =  ob.Daño - (mob.Defensa / 3);
+            if (lostlife > 0)
+            {
+                mob.Vida -= lostlife;
+            }
+            else { Console.WriteLine("Tu ataque hizo ningun daño \nTal vez deberias correr"); }
+            if (mob.Vida <= 0)
+            {
+                mob.Vida = 0;
+                mob.Existencia = 0;
+                mob.Stat();
+                Console.WriteLine("El enemigo fue abatido");
+            }
+        }
+        public static void Huir(Personaje mob, Personaje ob)
+        {
+
+            if (ob.Velocidad > mob.Velocidad)
+            {
+                ob.Existencia=2;
+                Console.WriteLine("Fuiste mas veloz");
+            }
+            else {
+                Atacar(ob,mob);
+                Console.WriteLine("No podras salir de esta tan facil, toma otra decison:\n "); }
+        }
+        public static void Decision(int desi,Personaje mob,Personaje ob, int situacion = 0)
+        {
+            
+            if (situacion == 1)
+            {
+                while ((mob.Existencia == 1) && (ob.Existencia == 1))
+                {
+                    
+                    Console.WriteLine("Decide: \n1.- Pelear\n2.- Huir\n");
+                    desi = Convert.ToInt32(Console.ReadLine());
+                    switch (desi)
+                    {
+                        case 1:
+                            Atacar(mob, ob);
+                            break;
+                        case 2:
+                            Huir(mob,ob);
+                            break;
+                    }
+                }
+                if (ob.Vida != 0 && ob.Existencia == 1)
+                    ob.Existencia = 1;
+                
+            }
+        }
     }
 
 class Personaje
@@ -124,6 +174,7 @@ class Personaje
     private int daño=1;
     private string nombre;
     private string habilidadH;
+    private int existencia=1;
 
     public int Vida
     {
@@ -159,6 +210,11 @@ class Personaje
         {
             Console.WriteLine("Vida = {0} \nDefensa = {1} \nVelocidad = {2} \nDaño = {4} \nHabilidad = {3}\n", Vida, Defensa, Velocidad, Habilidad, Daño);
         }
+    public int Existencia
+        {
+            get { return existencia; }
+            set { existencia = value;}
+        }
     
     }
     class Jugador : Personaje
@@ -172,15 +228,6 @@ class Personaje
             Defensa = 10;
             Velocidad = 10;
         }
-        public void Atacar(Personaje mob)
-        {
-            int lostlife = Daño - (mob.Defensa / 3);
-            if (lostlife > 0)
-            {
-                mob.Vida -= lostlife;
-            }
-            else { Console.WriteLine("Tu ataque no le hizo ningun daño \nTal vez deberias correr"); }
-        }
     }
     class Mob : Personaje
     {       
@@ -193,18 +240,10 @@ class Personaje
             Defensa = 0*(lvl);
             Velocidad = 6*(lvl);
             }
-        public void Atacar(Personaje mob)
-        {
-            int lostlife = Daño - (mob.Defensa / 3);
-            if (lostlife > 0)
-            {
-                mob.Vida -= lostlife;
-            }
-            else { Console.WriteLine("Tu ataque no le hizo ningun daño \nTal vez deberias correr"); }
-        }
         ~Mob()
         {      
         }
     }
 }
 
+             
