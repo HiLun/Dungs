@@ -10,32 +10,29 @@ namespace GoblinsDungeons
     {
         static void Main(string[] args)
         {
-
-            //set de lvl estandar temporal para mobs
-            int lvl = 1;
-
             int decis = 0;
             int situacion = 0;
             //Jugador
             Console.WriteLine("¿Cual es tu nombre viajero?: ");
             string v = Console.ReadLine();
             Jugador Le = new Jugador(v);
-            Le.Habilidad = Asignacion();                     
+            Le.Habilidad = Asignacion();
             Boost(Le.Habilidad, Le);
             Le.Stat();
 
-            //Enemigo
-            Console.WriteLine("Encontraste a un enemigo");
-            Mob gob = new Mob(lvl);
-            while(gob.Existencia == 1 && Le.Existencia == 1)
+            while (true)
             {
-                situacion = 1;
-                gob.Habilidad = "Debilidad " + lvl;
-                gob.Stat();
-                //Jugador decide
-                Decision(decis, gob, Le,situacion);
-            }
+                Console.WriteLine("Quieres avanzar?:\n1.- Si\n2.-No ");
+                int seguir = Convert.ToInt32(Console.ReadLine());
+                Random rand = new Random();
+               situacion = rand.Next(0,3);
 
+                    if (seguir == 1)
+                {
+                    //Jugador decide
+                    Decision(decis, Le, situacion);
+                }                                
+            }
 
 
             Console.ReadKey();
@@ -138,12 +135,20 @@ namespace GoblinsDungeons
                 Atacar(ob,mob);
                 Console.WriteLine("No podras salir de esta tan facil, toma otra decison:\n "); }
         }
-        public static void Decision(int desi,Personaje mob,Personaje ob, int situacion = 0)
+        public static void Decision(int desi,Personaje ob, int situacion = 0)
         {
-            
+            if (situacion == 0 || situacion == 2)
+            {
+                Console.WriteLine("Una habitacion vacia... \nSeguimos adelante?");
+            }
             if (situacion == 1)
             {
-                while ((mob.Existencia == 1) && (ob.Existencia == 1))
+                Console.WriteLine("Encontraste a un enemigo\n");
+                Mob gob = new Mob(1);
+                
+                gob.Habilidad = "Debilidad " + 1;
+                gob.Stat();
+                while ((gob.Existencia == 1) && (ob.Existencia == 1))
                 {
                     
                     Console.WriteLine("Decide: \n1.- Pelear\n2.- Huir\n");
@@ -151,14 +156,14 @@ namespace GoblinsDungeons
                     switch (desi)
                     {
                         case 1:
-                            Atacar(mob, ob);
+                            Atacar(gob, ob);
                             break;
                         case 2:
-                            Huir(mob,ob);
+                            Huir(gob,ob);
                             break;
                     }
                 }
-                if (ob.Vida != 0 && ob.Existencia == 1)
+                if (ob.Vida != 0 && ob.Existencia == 2)
                     ob.Existencia = 1;
                 
             }
